@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: microservice-app
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: microservice-app
+
+  template:
+    metadata:
+      labels:
+        app: microservice-app
+
+    spec:
+      containers:
+        - name: microservice-app
+          image: microservice-app
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 8080
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
